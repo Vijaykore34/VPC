@@ -1,0 +1,101 @@
+> Go in Create VPC
+1.VPC Only
+2.Name tag myvpc
+3.select IPv4 CIDR manual input
+4.PIv4 CIDR take   10.0.0.0/16 ==> Largest CIDR range supported by your vpc is /16
+5.PIv6 CIDR block take No IPv6 CIDR block
+6.Tenancy take Default 
+7.Creat end with abcc
+
+> Create subnet
+1.VPC ID IN ==> myvpc
+2.Subnet name ===> public-subnet
+3.Availability zone ==> US east (N.Virginia)/ us-east-1a
+4.IPv4 CIDR block ==> 10.0.0.0/24
+5.Create subnet
+
+> Create Private subnet
+1.VPC ID IN ==> myvpc
+2.Subnet name ===> private-subnet
+3.Availability zone ==> US east (N.Virginia)/ us-east-1b
+4.IPv4 CIDR block ==> 10.0.1.0/24
+5.Create subnet
+
+> Create internetgetway
+1.Name tag ==> myigw
+2.select internet getway   ==>  select and attach it to vpc
+
+> Create route table
+1.Name ==> public-route
+2.vpc ==> myvpc
+3.create route table
+4.select route table ==> routes  edit routes ==> add route ==> 0.0.0.0/0 ==> internet getway and save
+5.select public route table ==> subnet assoications and edit subnet assoications select public subnet and save 
+6.select public route table ==> Actions ==> edit subnet settings ==>   Auto-assign IP settings mark enable auto and save 
+
+> Go in ec2 
+1.launch instance ==> Name ==> webserver
+2.ubuntu == 20
+3.Network setting ==> 1.select my vpc 2.subnet ==> public subnet 3.Auto assing ==> keep as it is 
+4.Fire wall ==> create secuity ==> launch-wizard-3-myvpc type ==> ssh anywhere 
+5 add secuity group ==> http anywhere
+
+> Connect 
+1. # ssh -i nick.pem ubuntu@public ip
+2. # sudo apt udpate
+3. to copy key to other ==> fire from new terminal ==> $ scp -i nick.pem nick.pem ubuntu@private ip :~ 
+4. # ls -l 
+
+> Create instance for private subnet
+1. Name of instance ==> db-sever
+2. vpc ==> myvpc
+3. subnet ==> private subnet
+4. auto ==> keep as it is
+5. secuity group rule 1 ==> type==> ssh custom ==> 10.0.0.0/24
+6. secuity group rule 2 ==> type ==> mysql/aurora source type custom ==> 10.0.0.0/24
+7.launch instance 
+
+> Connect from the same terminal
+1.ssh -i nick.pem ubuntu@db instance private ip
+2. 3 sudo apt update
+
+> Go in nat getway create 
+1.name it as my-nat-gw
+2. subnet (public-subnet)
+3. connectivity type ==> public
+4. allocate elastic ip 
+5. create nat getway
+
+> VPC   route table 
+1. select default toute table written  abcc myvpc
+2. routes ==> edit route table ===> 0.0.0.0/0 2. nat (my-nat-gw) save changes
+3. go in nat getway and check
+
+> Go in terminal 
+1. # exit
+2. # ssh -i nick.pem ubuntu@db private ip
+3. # sudo apt update
+
+clean up process
+1. terminate the instance
+2. nat getway  delete  actio realse elastic ip
+3. elastic ip realse
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

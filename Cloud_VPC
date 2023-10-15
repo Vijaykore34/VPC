@@ -31,7 +31,7 @@
 3.create route table
 4.select route table ==> routes  edit routes ==> add route ==> 0.0.0.0/0 ==> internet getway and save
 5.select public route table ==> subnet assoications and edit subnet assoications select public subnet and save 
-6.select public route table ==> Actions ==> edit subnet settings ==>   Auto-assign IP settings mark enable auto and save 
+6.select public subnet ==> Actions ==> edit subnet settings ==>   Auto-assign IP settings mark enable auto and save 
 
 > Go in ec2 
 1.launch instance ==> Name ==> webserver
